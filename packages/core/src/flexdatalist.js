@@ -1291,8 +1291,8 @@ class Flexdatalist {
         this._fetchDisabled = false;
         clearTimeout(this._searchTimeout);
 
-        // Ignore navigation keys (arrows, enter).
-        const navKeys = ['Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+        // Ignore navigation and dismissal keys.
+        const navKeys = ['Enter', 'Escape', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
         if (!key || !navKeys.includes(key)) {
             this._searchTimeout = setTimeout(() => {
                 const len = kw.length;
@@ -2925,7 +2925,11 @@ class Flexdatalist {
             }
         }
         if (itemsOnly) this._setActiveDescendant(null);
-        else this._setResultsExpanded(false);
+        else {
+            clearTimeout(this._searchTimeout);
+            this._searchTimeout = null;
+            this._setResultsExpanded(false);
+        }
         this._dispatch('removed:flexdatalist.results');
     }
 
