@@ -1291,8 +1291,9 @@ class Flexdatalist {
         this._fetchDisabled = false;
         clearTimeout(this._searchTimeout);
 
-        // Ignore navigation keys (arrows, enter).
-        const navKeys = ['Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
+        // Ignore navigation keys (arrows, enter, escape — Escape dismisses the
+        // list and must not re-arm a search that would reopen it).
+        const navKeys = ['Enter', 'Escape', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
         if (!key || !navKeys.includes(key)) {
             this._searchTimeout = setTimeout(() => {
                 const len = kw.length;
